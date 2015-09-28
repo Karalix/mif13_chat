@@ -14,5 +14,9 @@ and open the template in the editor.
     <body>
         <h1>Chat</h1>
         <iframe style="width: 100%;height: 300px;" src="Messages.jsp" name="messages"></iframe>
+        <form action="Messages.jsp" target="messages" method="post">
+            <input type="text" name="texte"/>
+            <input type="submit" value="Envoyer"/>
+        </form>
     </body>
 </html>

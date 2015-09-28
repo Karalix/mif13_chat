@@ -1,13 +1,26 @@
 <%-- 
     Document   : Messages
-    Created on : 28 sept. 2015, 20:22:28
+    Created on : 28 sept. 2015, 21:11:51
     Author     : Alix
 --%>
+
 <%@page import="java.util.ArrayList"%>
-<%@page import="fr.univlyon1.chat.Message"%>
 <%@page import="java.util.List"%>
-<%! private List<Message> messages = new ArrayList<Message>() ;%>
+<%@page import="fr.univlyon1.chat.Message"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%! 
+private List<Message> messages = new ArrayList<>();
+%>
+    <%
+        String texte = request.getParameter("texte");
+        if(texte != null)
+        {
+            messages.add(new Message("Bob",texte));
+        }
+        response.setHeader("Refresh", "5");
+        pageContext.setAttribute("messages", messages);
+    %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,17 +28,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
-        <h1>Hello World!</h1>
+    <c:forEach items="${messages}" var="message">
+        <p><span style="font-weight: bold;">${message.sender} : </span>${message.texte}</p>
+    </c:forEach>
     </body>
 </html>

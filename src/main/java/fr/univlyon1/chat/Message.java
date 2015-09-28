@@ -31,7 +31,7 @@ public class Message {
         this.sender = sender;
     }
 
-    public Message(String texte, String sender) {
+    public Message(String sender, String texte) {
         this.texte = texte;
         this.sender = sender;
     }
