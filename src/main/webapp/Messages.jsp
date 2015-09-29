@@ -10,7 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%! 
-private List<Message> messages = new ArrayList<>();
+private List messages = new ArrayList();
 %>
     <%
         String texte = request.getParameter("texte");

@@ -29,7 +29,18 @@ public class Init extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("index.html");
+        //response.sendRedirect("index.html");
+        
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        
+        out.println("<!DOCTYPE html><html>\n" +
+                "<head></head>\n" +
+                "<body bgcolor=\"#f0f0f0\">\n" +
+                "<h2>Login : </h2> <br>" +
+                request.getParameter("login")+
+                "</body></html>"); 
     }
 
     /**
@@ -43,6 +54,7 @@ public class Init extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        doGet(request, response);
     }
 
     /**
