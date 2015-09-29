@@ -3,7 +3,7 @@
     Created on : 28 sept. 2015, 21:11:51
     Author     : Alix
 --%>
-
+<jsp:useBean id="unbean" class="fr.univlyon1.chat.GestionMessages" scope="application"/>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.ArrayList"%>
@@ -11,21 +11,15 @@
 <%@page import="fr.univlyon1.chat.Message"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%! 
-//private List messages = new ArrayList();
-private Map rooms = new HashMap() ;
-%>
+
     <%
+        
         String room = ((String)session.getAttribute("room"));
+        
         if(room == null)
         {
             room = "default" ;
         }
-        if(rooms.get(room) == null)
-        {
-            rooms.put(room, new ArrayList());
-        }
-        
         
         String user = ((String)session.getAttribute("login"));
         if(user == null)
@@ -36,10 +30,10 @@ private Map rooms = new HashMap() ;
         
         if(texte != null)
         {
-            ((List)rooms.get(room)).add(new Message(user,texte));
+            unbean.addMessageInRoom(room,new Message(user,texte));
         }
         response.setHeader("Refresh", "5");
-        pageContext.setAttribute("messages", ((List)rooms.get(room)));
+        pageContext.setAttribute("messages", unbean.getMessagesByRoom(room));
     %>
 <!DOCTYPE html>
 <html>
