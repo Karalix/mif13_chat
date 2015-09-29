@@ -25,7 +25,7 @@ private Map rooms = new HashMap() ;
         {
             rooms.put(room, new ArrayList());
         }
-        //String user = "Alix" ;
+        
         
         String user = ((String)session.getAttribute("login"));
         if(user == null)
@@ -33,7 +33,7 @@ private Map rooms = new HashMap() ;
             user = "Bob";
         }
         String texte = request.getParameter("texte");
-        //user = request.getParameter("login");
+        
         if(texte != null)
         {
             ((List)rooms.get(room)).add(new Message(user,texte));

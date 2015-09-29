@@ -30,19 +30,9 @@ public class Init extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("login");
-        response.sendRedirect("interface.jsp?login=" +user);
         
-        /*response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-
+        response.sendRedirect("index.html");
         
-        out.println("<!DOCTYPE html><html>\n" +
-                "<head></head>\n" +
-                "<body bgcolor=\"#f0f0f0\">\n" +
-                "<h2>Login : </h2> <br>" +
-                request.getParameter("login")+
-                "</body></html>"); */
     }
 
     /**
@@ -62,7 +52,6 @@ public class Init extends HttpServlet {
         String room = request.getParameter("room");
         request.getSession().setAttribute("login", user);
         request.getSession().setAttribute("room", room);
-        //response.sendRedirect("interface.html?login=" +user);
         request.getRequestDispatcher("interface.jsp").forward(request, response);
     }
 
