@@ -14,9 +14,11 @@ private List messages = new ArrayList();
 %>
     <%
         String texte = request.getParameter("texte");
+        String user = "Alix";
+        user = request.getParameter("login");
         if(texte != null)
         {
-            messages.add(new Message("Bob",texte));
+            messages.add(new Message(user,texte));
         }
         response.setHeader("Refresh", "5");
         pageContext.setAttribute("messages", messages);
