@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Init extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String user = request.getParameter("login");
-        response.sendRedirect("interface.html?login=" +user);
+        response.sendRedirect("interface.jsp?login=" +user);
         
         /*response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -55,7 +56,14 @@ public class Init extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        
+        
+        String user = request.getParameter("login");
+        String room = request.getParameter("room");
+        request.getSession().setAttribute("login", user);
+        request.getSession().setAttribute("room", room);
+        //response.sendRedirect("interface.html?login=" +user);
+        request.getRequestDispatcher("interface.jsp").forward(request, response);
     }
 
     /**
