@@ -14,9 +14,8 @@
 
 
 <%if(request.getMethod()=="GET"){%>
-<jsp:include page="affichage.jsp"/>
-<jsp:forward page="stockage.jsp"/>
+<jsp:include page="affichage.jsp"/>   
 <%} else {%>
-<jsp:forward page="stockage.jsp"/>
-<jsp:include page="affichage.jsp"/>
+<jsp:include page="stockage.jsp"/>
+<jsp:include page="affichage.jsp"/> 
 <% } %>

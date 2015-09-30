@@ -11,7 +11,6 @@
 
 <%
         String room = ((String)session.getAttribute("room"));
-        
         if(room == null)
         {
             room = "default" ;
