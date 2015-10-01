@@ -20,5 +20,10 @@ and open the template in the editor.
             <input type="text" name="texte"/>
             <input type="submit" value="Envoyer"/>
         </form>
+        <br>
+        <form action="Deconnexion" method="post">
+            <input type="submit" value="deconnexion"/>
+        </form>
     </body>
 </html>
+
