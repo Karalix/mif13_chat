@@ -7,7 +7,10 @@ package fr.univlyon1.chat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.servlet.ServletContext;
+import javax.servlet.jsp.PageContext;
 
 /**
  *
@@ -15,13 +18,15 @@ import java.util.Map;
  */
 public class GestionMessages {
 
-    private static Map<String, ArrayList<Message>> map = new HashMap();
-
-    
     public GestionMessages() {
     }
     
-    public ArrayList<Message> getMessagesByRoom(String room){
+    public ArrayList<Message> getMessagesByRoom(ServletContext context, String room){
+        Map<String,ArrayList<Message>> map = (HashMap<String,ArrayList<Message>>)context.getAttribute("rooms");
+        if(map == null)
+        {
+            map = initializeRooms(context);
+        }
         ArrayList<Message> list = map.get(room);
         if(list == null){
             list = new ArrayList<Message>();
@@ -30,13 +35,22 @@ public class GestionMessages {
         return list;
     } 
     
-    public void addMessageInRoom(String room, Message msg){
-        ArrayList<Message> list = getMessagesByRoom(room);
+    public void addMessageInRoom(ServletContext context, String room, Message msg){
+        Map map = (HashMap)context.getAttribute("rooms");
+        ArrayList<Message> list = getMessagesByRoom(context,room);
         list.add(msg);
     }
     
-    public int numbreMessageInARoom(String room){
-        ArrayList<Message> list = getMessagesByRoom(room);
+    public int numbreMessageInARoom(ServletContext context, String room){
+        Map map = (HashMap)context.getAttribute("rooms");
+        ArrayList<Message> list = getMessagesByRoom(context,room);
         return list.size();
     }
+
+    private Map<String, ArrayList<Message>> initializeRooms(ServletContext context) {
+        Map <String, ArrayList<Message>> map = new HashMap<String,ArrayList<Message>>();
+        context.setAttribute("rooms",map);
+        return map ;
+    }
+
 }

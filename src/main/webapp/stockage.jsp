@@ -22,7 +22,7 @@
         
         if(texte != null)
         {
-            unbean.addMessageInRoom(room,new Message(user,texte));
+            unbean.addMessageInRoom(application,room,new Message(user,texte));
         }
        
 %>

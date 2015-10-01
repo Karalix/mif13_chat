@@ -17,7 +17,7 @@
         }
         
         response.setHeader("Refresh", "5");
-        pageContext.setAttribute("messages", unbean.getMessagesByRoom(room));
+        pageContext.setAttribute("messages", unbean.getMessagesByRoom(application,room));
 %>
 <!DOCTYPE html>
 <html>

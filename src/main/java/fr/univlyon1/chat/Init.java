@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.JspFactory;
 
 /**
  *
  * @author Alix
  */
 public class Init extends HttpServlet {
+    
 
     /**
      * Handles the HTTP <code>GET</code> method.
