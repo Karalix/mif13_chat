@@ -4,17 +4,9 @@
         <servlet-name>Init</servlet-name>
         <servlet-class>fr.univlyon1.chat.Init</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>Deconnexion</servlet-name>
-        <servlet-class>fr.univlyon1.chat.Deconnexion</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Init</servlet-name>
         <url-pattern>/Init</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Deconnexion</servlet-name>
-        <url-pattern>/Deconnexion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>1</session-timeout>
