@@ -49,13 +49,14 @@ public class Init extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+   if(request.getParameter("but").equals("in"))
+        {
         String user = request.getParameter("login");
         String room = request.getParameter("room");
         request.getSession().setAttribute("login", user);
         request.getSession().setAttribute("room", room);
         request.getRequestDispatcher("interface.jsp").forward(request, response);
+        }
     }
 
     /**
