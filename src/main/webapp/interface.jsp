@@ -18,6 +18,7 @@ and open the template in the editor.
         <iframe style="width: 100%;height: 300px;" src="Messages.jsp" name="messages"></iframe>
         <form action="Messages.jsp" target="messages" method="post">
             <input type="text" name="texte"/>
+            <input type="hidden" name="but" value="msg"/>
             <input type="submit" value="Envoyer"/>
         </form>
         <br>
