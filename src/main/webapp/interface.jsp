@@ -15,14 +15,15 @@ and open the template in the editor.
     </head>
     <body>
         <h1><%= request.getSession().getAttribute("room") %></h1>
-        <iframe style="width: 100%;height: 300px;" src="Messages.jsp" name="messages"></iframe>
-        <form action="Messages.jsp" target="messages" method="post">
+        <iframe style="width: 100%;height: 300px;" src="affichage.jsp" name="messages"></iframe>
+        <form action="Init" target="messages" method="post">
             <input type="text" name="texte"/>
             <input type="hidden" name="but" value="msg"/>
             <input type="submit" value="Envoyer"/>
         </form>
         <br>
         <form action="Init" method="get">
+            <input type="hidden" name="but" value="out"/>
             <input type="submit" value="deconnexion"/>
         </form>
     </body>

@@ -35,9 +35,13 @@ public class Init extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.invalidate();
-        response.sendRedirect("index.html");
+        if(request.getParameter("but").equals("out"))
+        {
+            HttpSession session = request.getSession();
+            session.invalidate();
+            response.sendRedirect("index.html");
+        }
+        
         
     }
 
@@ -64,7 +68,6 @@ public class Init extends HttpServlet {
         }
         else if(request.getParameter("but").equals("msg"))
         {
-            //TODO:stockage de message
              String room = (String) request.getSession().getAttribute("room");
         
             if(room == null)
@@ -83,6 +86,7 @@ public class Init extends HttpServlet {
             {
                 gm.addMessageInRoom(context,room,new Message(user,texte));
             }
+            request.getRequestDispatcher("affichage.jsp").forward(request, response);
         }
     }
 
