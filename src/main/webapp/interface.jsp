@@ -14,10 +14,14 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1><%= request.getSession().getAttribute("room") %></h1>
-        <iframe style="width: 100%;height: 300px;" src="affichage.jsp" name="messages"></iframe>
+        <% String user = request.getParameter("login");%>
+        <% String room = request.getParameter("room");%>
+        <h1><%= room %></h1>
+        <iframe style="width: 100%;height: 300px;" name="messages" src="affichage.jsp?login=<%=user%>&room=<%=room%>" ></iframe>
         <form action="Init" target="messages" method="post">
             <input type="text" name="texte"/>
+            <input type="hidden" name="login" value="<%=user%>"/>
+            <input type="hidden" name="room" value="<%=room%>"/>
             <input type="hidden" name="but" value="msg"/>
             <input type="submit" value="Envoyer"/>
         </form>

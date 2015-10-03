@@ -12,7 +12,9 @@
 
 
 <%
-        String room = ((String)session.getAttribute("room"));
+        //String room = ((String)session.getAttribute("room"));
+        String room = request.getParameter("room");
+        String user = request.getParameter("login");
         if(room == null)
         {
             room = "default" ;
@@ -25,7 +27,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="refresh" content="5 URL=affichage.jsp">
+        <meta http-equiv="refresh" content="5 URL=affichage.jsp?login=<%=user%>&room=<%=room%>">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>

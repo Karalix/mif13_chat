@@ -63,18 +63,16 @@ public class Init extends HttpServlet {
              context.setAttribute("gestionmessage", gm);
              String user = request.getParameter("login");
              String room = request.getParameter("room");
-             request.getSession().setAttribute("login", user);
-             request.getSession().setAttribute("room", room);
-             request.getRequestDispatcher("interface.jsp").forward(request, response);
+             response.sendRedirect("interface.jsp?login="+user+"&room="+room);
         }
         else if(request.getParameter("but").equals("msg"))
         {
-             String room = (String) request.getSession().getAttribute("room");
+            String room = request.getParameter("room");
             if(room == null)
             {
                 room = "default" ;
             }
-            String user = ((String)request.getSession().getAttribute("login"));
+            String user = request.getParameter("login");
             if(user == null)
             {
                 user = "Bob";
@@ -84,7 +82,7 @@ public class Init extends HttpServlet {
             {
                 gm.addMessageInRoom(context,room,new Message(user,texte));
             }
-            request.getRequestDispatcher("affichage.jsp").forward(request, response);
+            response.sendRedirect("affichage.jsp?login="+user+"&room="+room);
         }
     }
 
