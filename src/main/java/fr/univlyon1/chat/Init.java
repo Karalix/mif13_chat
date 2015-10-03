@@ -7,6 +7,7 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import javax.servlet.jsp.JspFactory;
  */
 public class Init extends HttpServlet {
     
+    
+    static GestionMessages gm = new GestionMessages();
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -49,8 +52,10 @@ public class Init extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ServletContext context = request.getSession().getServletContext();
         if(request.getParameter("but").equals("in"))
         {
+             context.setAttribute("gestionmessage", gm);
              String user = request.getParameter("login");
              String room = request.getParameter("room");
              request.getSession().setAttribute("login", user);
@@ -60,6 +65,24 @@ public class Init extends HttpServlet {
         else if(request.getParameter("but").equals("msg"))
         {
             //TODO:stockage de message
+             String room = (String) request.getSession().getAttribute("room");
+        
+            if(room == null)
+            {
+                room = "default" ;
+            }
+
+            String user = ((String)request.getSession().getAttribute("login"));
+            if(user == null)
+            {
+                user = "Bob";
+            }
+            String texte = request.getParameter("texte");
+
+            if(texte != null)
+            {
+                gm.addMessageInRoom(context,room,new Message(user,texte));
+            }
         }
     }
 

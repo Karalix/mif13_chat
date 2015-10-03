@@ -16,6 +16,6 @@
 <%if(request.getMethod()=="GET"){%>
 <jsp:include page="affichage.jsp"/>   
 <%} else {%>
-<jsp:include page="stockage.jsp"/>
+<jsp:include page="Init"/>
 <jsp:include page="affichage.jsp"/> 
 <% } %>
