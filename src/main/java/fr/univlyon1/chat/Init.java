@@ -61,7 +61,7 @@ public class Init extends HttpServlet {
              context.setAttribute("gestionmessage", gm);
              String user = request.getParameter("login");
              String room = request.getParameter("room");
-             response.sendRedirect("interface.jsp?login="+user+"&room="+room);
+             request.getRequestDispatcher("interface.jsp?login="+user+"&room="+room).forward(request, response);
         }
         else if(request.getParameter("but").equals("msg"))
         {
@@ -80,7 +80,7 @@ public class Init extends HttpServlet {
             {
                 gm.addMessageInRoom(context,room,new Message(user,texte));
             }
-            response.sendRedirect("affichage.jsp?login="+user+"&room="+room);
+            request.getRequestDispatcher("affichage.jsp?login="+user+"&room="+room).forward(request, response);
         }
     }
 
