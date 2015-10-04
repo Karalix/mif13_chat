@@ -12,7 +12,6 @@
 
 
 <%
-        //String room = ((String)session.getAttribute("room"));
         String room = request.getParameter("room");
         String user = request.getParameter("login");
         if(room == null)

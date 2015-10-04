@@ -17,7 +17,7 @@ and open the template in the editor.
         <% String user = request.getParameter("login");%>
         <% String room = request.getParameter("room");%>
         <h1><%= room %></h1>
-        <iframe style="width: 100%;height: 300px;" name="messages" src="affichage.jsp?login=<%=user%>&room=<%=room%>" ></iframe>
+        <iframe style="width: 100%;height: 300px;" name="messages" src="Messages.jsp?login=<%=user%>&room=<%=room%>" ></iframe>
         <form action="Init" target="messages" method="post">
             <input type="text" name="texte"/>
             <input type="hidden" name="login" value="<%=user%>"/>
