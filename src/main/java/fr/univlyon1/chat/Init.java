@@ -80,6 +80,7 @@ public class Init extends HttpServlet {
             {
                 gm.addMessageInRoom(context,room,new Message(user,texte));
             }
+            //context.setAttribute("lastModified", );
             request.getRequestDispatcher("affichage.jsp?login="+user+"&room="+room).forward(request, response);
         }
     }
