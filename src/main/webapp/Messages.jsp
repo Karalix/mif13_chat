@@ -15,5 +15,4 @@
 <jsp:include page="affichage.jsp"/>   
 <%} else {%>
 <jsp:include page="Init"/>
-<jsp:include page="affichage.jsp"/> 
 <% } %>
