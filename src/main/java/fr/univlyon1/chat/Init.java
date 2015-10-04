@@ -7,6 +7,8 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -80,7 +82,9 @@ public class Init extends HttpServlet {
             {
                 gm.addMessageInRoom(context,room,new Message(user,texte));
             }
-            //context.setAttribute("lastModified", );
+            SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+            String dateString = format.format(new Date());
+            context.setAttribute("lastModified", dateString );
             request.getRequestDispatcher("affichage.jsp?login="+user+"&room="+room).forward(request, response);
         }
     }
