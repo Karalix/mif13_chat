@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -31,11 +32,14 @@ public class ChatFilter implements Filter{
         HttpServletResponse resp = (HttpServletResponse)response ;
         
         
-        if(req.getMethod().equalsIgnoreCase("POST") && req.getParameter("but").equals("in"))
+        if(req.getMethod().equalsIgnoreCase("POST") && req.getParameter("but").equals("in") && req.getParameter("login") != "")
         {
-            req.getRequestDispatcher("Init").forward(req, resp);
+             ServletContext context = request.getServletContext();  
+             String user = request.getParameter("login");
+             String room = request.getParameter("room");
+             request.getRequestDispatcher("interface.jsp?login="+user+"&room="+room).forward(request, response);
         }
-        else if(req.getParameter("login") == null)
+        else if(req.getMethod().equalsIgnoreCase("POST") && req.getParameter("but").equals("in"))
         {
             req.getRequestDispatcher("index.html").forward(req, resp);
         }

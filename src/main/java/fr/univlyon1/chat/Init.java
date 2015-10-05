@@ -26,6 +26,15 @@ public class Init extends HttpServlet {
     
     private static GestionMessages gm = new GestionMessages();
 
+    @Override
+    public void init() throws ServletException{
+        super.init();
+        ServletContext context = this.getServletContext();
+        context.setAttribute("gestionmessage", gm);
+    }
+    
+    
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -58,14 +67,8 @@ public class Init extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext context = request.getServletContext();      
-        if(request.getParameter("but").equals("in"))
-        {
-             context.setAttribute("gestionmessage", gm);
-             String user = request.getParameter("login");
-             String room = request.getParameter("room");
-             request.getRequestDispatcher("interface.jsp?login="+user+"&room="+room).forward(request, response);
-        }
-        else if(request.getParameter("but").equals("msg"))
+        
+         if(request.getParameter("but").equals("msg"))
         {
             String room = request.getParameter("room");
             if(room == null)
