@@ -12,9 +12,33 @@
         <servlet-name>Init</servlet-name>
         <servlet-class>fr.univlyon1.chat.Init</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>fr.univlyon1.chat.ChatServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConversationsServlet</servlet-name>
+        <servlet-class>fr.univlyon1.chat.ConversationsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MessagesServlet</servlet-name>
+        <servlet-class>fr.univlyon1.chat.MessagesServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Init</servlet-name>
         <url-pattern>/Init</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/Chat/*</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>MessagesServlet</servlet-name>
+        <url-pattern>/Conversations/*/Messages</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConversationsServlet</servlet-name>
+        <url-pattern>/Conversations/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
