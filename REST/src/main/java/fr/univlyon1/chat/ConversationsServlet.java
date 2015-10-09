@@ -31,7 +31,7 @@ public class ConversationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String chaine = request.getRequestURI();
     }
 
     /**

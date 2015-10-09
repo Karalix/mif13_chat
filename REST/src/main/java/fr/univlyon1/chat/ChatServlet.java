@@ -34,7 +34,7 @@ public class ChatServlet extends HttpServlet {
             throws ServletException, IOException {
         ServletContext context = request.getServletContext();
         GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
-        //TODO : get room list 
+        gm.getAllRooms(context);
     }
 
     /**
@@ -48,6 +48,10 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String room = request.getParameter("room");
+        ServletContext context = request.getServletContext();
+        GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
+        gm.getMessagesByRoom(context, room);
         
     }
 

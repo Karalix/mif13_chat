@@ -5,10 +5,12 @@
  */
 package fr.univlyon1.chat;
 
+import static java.lang.reflect.Array.set;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.PageContext;
 
@@ -45,6 +47,10 @@ public class GestionMessages {
         Map map = (HashMap)context.getAttribute("rooms");
         ArrayList<Message> list = getMessagesByRoom(context,room);
         return list.size();
+    }
+    public Set getAllRooms(ServletContext context){
+        Map map = (HashMap)context.getAttribute("rooms");
+        return map.keySet();
     }
 
     private Map<String, ArrayList<Message>> initializeRooms(ServletContext context) {

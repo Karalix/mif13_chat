@@ -47,7 +47,11 @@ public class MessagesServlet extends HttpServlet {
             throws ServletException, IOException {
         
     }
-
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
     /**
      * Returns a short description of the servlet.
      *
