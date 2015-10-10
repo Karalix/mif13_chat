@@ -34,7 +34,7 @@
     </servlet-mapping>
      <servlet-mapping>
         <servlet-name>MessagesServlet</servlet-name>
-        <url-pattern>/Conversations/*/Messages</url-pattern>
+        <url-pattern>/Conversations/*/Messages/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ConversationsServlet</servlet-name>

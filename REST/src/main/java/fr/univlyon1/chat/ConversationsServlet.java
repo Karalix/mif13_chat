@@ -7,6 +7,7 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,25 @@ public class ConversationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String chaine = request.getRequestURI();
+        response.setContentType("text/html");
+        String uri = request.getRequestURI();
+        String[] parts = uri.split("/");
+        if(parts.length == 5){
+            String room = parts[3];
+            String objectif = parts[4];
+            switch (objectif){
+                case "interface":
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/interface.jsp?room="+room+"&login=");
+                    requestDispatcher.include(request, response);
+                    break;
+                case "nombre":
+                    //TODO
+                    break;
+                 default:
+                     break;
+            }
+                          
+        }
     }
 
     /**

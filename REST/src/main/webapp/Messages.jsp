@@ -15,7 +15,7 @@
 
 <%if(request.getMethod()=="GET"){%>
 
-<jsp:include page="affichage.jsp"/>
+<jsp:include page="/Chat/affichage.jsp"/>
 <%} else {%>
-<jsp:include page="Init"/>
+<jsp:include page="/Chat/Init"/>
 <% } %>

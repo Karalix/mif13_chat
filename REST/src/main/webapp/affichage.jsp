@@ -25,7 +25,6 @@
         {
             room = "default" ;
         }  
-        //ServletContext context = request.getServletContext();
         GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
         ArrayList<Message> messages = gm.getMessagesByRoom(context,room);
         if(context.getAttribute("lastModified") != null)

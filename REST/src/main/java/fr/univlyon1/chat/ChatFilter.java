@@ -6,6 +6,8 @@
 package fr.univlyon1.chat;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -43,7 +45,18 @@ public class ChatFilter implements Filter{
         {
             req.getRequestDispatcher("index.html").forward(req, resp);
         }
-
+        else if(Pattern.matches("/Chat/Conversations/.*/Messages.*", req.getRequestURI()) )
+        {
+            PrintWriter out = resp.getWriter();
+            out.println("dddd");
+            //TODO:appel à MessagesServlet
+            
+        }
+        else
+        {/*je sais pas pouquoi si je supprime ces deux lignes les erreurs apparaissent*/
+            PrintWriter out = resp.getWriter();
+            out.println("");
+        }
         chain.doFilter(req , resp);
     }
 
