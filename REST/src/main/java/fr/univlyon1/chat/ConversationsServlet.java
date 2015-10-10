@@ -62,7 +62,11 @@ public class ConversationsServlet extends HttpServlet {
                     requestDispatcher.include(request, response);
                     break;
                 case "nombre":
-                    //TODO
+                    PrintWriter out = response.getWriter();
+                    out.println("Nombre de messages dans la salle "+room+"  : ");
+                    ServletContext context = request.getServletContext();
+                    GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
+                    out.println( gm.numbreMessageInARoom(context, room));
                     break;
                  default:
                      break;
