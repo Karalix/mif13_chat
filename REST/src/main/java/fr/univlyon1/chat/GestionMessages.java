@@ -48,7 +48,7 @@ public class GestionMessages {
         ArrayList<Message> list = getMessagesByRoom(context,room);
         return list.size();
     }
-    public Set getAllRooms(ServletContext context){
+    public Set<String> getAllRooms(ServletContext context){
         Map map = (HashMap)context.getAttribute("rooms");
         return map.keySet();
     }

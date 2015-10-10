@@ -31,9 +31,9 @@ public class MessagesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // String uri = request.getRequestURI();
+       String uri = request.getRequestURI();
         PrintWriter out = response.getWriter();
-            out.println("-------");
+            out.println("-------"+uri);
             
     }
 

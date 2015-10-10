@@ -39,7 +39,9 @@ public class ChatFilter implements Filter{
              ServletContext context = request.getServletContext();  
              String user = request.getParameter("login");
              String room = request.getParameter("room");
-             request.getRequestDispatcher("interface.jsp?login="+user+"&room="+room).forward(request, response);
+             String chemin = "/Chat/Conversations/"+room+"/interface/"+user;
+             //request.getRequestDispatcher("interface.jsp?login="+user+"&room="+room).forward(request, response);
+             resp.sendRedirect(chemin);
         }
         else if(req.getMethod().equalsIgnoreCase("POST") && req.getParameter("but").equals("in"))
         {
@@ -47,10 +49,7 @@ public class ChatFilter implements Filter{
         }
         else if(Pattern.matches("/Chat/Conversations/.*/Messages.*", req.getRequestURI()) )
         {
-            PrintWriter out = resp.getWriter();
-            out.println("dddd");
-            //TODO:appel à MessagesServlet
-            
+            req.getRequestDispatcher("/Messages").forward(req, resp);
         }
         else
         {/*je sais pas pouquoi si je supprime ces deux lignes les erreurs apparaissent*/

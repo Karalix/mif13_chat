@@ -7,6 +7,8 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,9 +34,17 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        /*ici affichage des salles ne marche pas*/
         ServletContext context = request.getServletContext();
         GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
-        gm.getAllRooms(context);
+        Set<String> set = gm.getAllRooms(context);
+        Iterator<String> it = set.iterator();
+        PrintWriter out = response.getWriter();
+        out.println("Les salles : ");
+        while (it.hasNext()){
+            out.println(it.next());
+        } 
+        
     }
 
     /**

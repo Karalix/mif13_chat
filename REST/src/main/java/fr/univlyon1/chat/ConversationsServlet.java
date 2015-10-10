@@ -35,12 +35,17 @@ public class ConversationsServlet extends HttpServlet {
         response.setContentType("text/html");
         String uri = request.getRequestURI();
         String[] parts = uri.split("/");
-        if(parts.length == 5){
+        if(parts.length > 4){
             String room = parts[3];
             String objectif = parts[4];
             switch (objectif){
                 case "interface":
-                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/interface.jsp?room="+room+"&login=");
+                    String user = parts[5];
+                    if(user == null)
+                    {
+                        user = "default";
+                    }
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/interface.jsp?room="+room+"&login="+user);
                     requestDispatcher.include(request, response);
                     break;
                 case "nombre":
