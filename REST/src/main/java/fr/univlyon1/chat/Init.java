@@ -24,13 +24,18 @@ import javax.servlet.jsp.JspFactory;
 public class Init extends HttpServlet {
     
     
-    private static GestionMessages gm = new GestionMessages();
+    private static GestionMessages gm;
 
     @Override
     public void init() throws ServletException{
         super.init();
         ServletContext context = this.getServletContext();
-        context.setAttribute("gestionmessage", gm);
+        gm = (GestionMessages) context.getAttribute("gestionmessage");
+        if(gm == null)
+        {
+            gm = new GestionMessages();
+            context.setAttribute("gestionmessage", gm);
+        }
     }
     
     

@@ -58,5 +58,5 @@ public class GestionMessages {
         context.setAttribute("rooms",map);
         return map ;
     }
-
+  
 }

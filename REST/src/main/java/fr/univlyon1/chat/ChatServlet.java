@@ -20,7 +20,20 @@ import javax.servlet.http.HttpServletResponse;
  * @author Emilie
  */
 public class ChatServlet extends HttpServlet {
+    
+    private static GestionMessages gm;
 
+    @Override
+    public void init() throws ServletException{
+        super.init();
+        ServletContext context = this.getServletContext();
+        gm = (GestionMessages) context.getAttribute("gestionmessage");
+        if(gm == null)
+        {
+            gm = new GestionMessages();
+            context.setAttribute("gestionmessage", gm);
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -34,17 +47,16 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*ici affichage des salles ne marche pas*/
+        /*ici affichage des salles à voir*/
+        PrintWriter out = response.getWriter();
+        out.println("Les salles : \n");
         ServletContext context = request.getServletContext();
         GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
         Set<String> set = gm.getAllRooms(context);
         Iterator<String> it = set.iterator();
-        PrintWriter out = response.getWriter();
-        out.println("Les salles : ");
-        while (it.hasNext()){
+       while (it.hasNext()){
             out.println(it.next());
-        } 
-        
+        }
     }
 
     /**
