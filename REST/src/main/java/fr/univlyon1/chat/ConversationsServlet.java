@@ -88,6 +88,17 @@ public class ConversationsServlet extends HttpServlet {
             throws ServletException, IOException {
         
     }
+    
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String uri = request.getRequestURI();
+        String[] parts = uri.split("/");
+        String room = parts[3];
+        ServletContext context = request.getServletContext();
+        GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
+        gm.removeRoom(context, room);
+    }
 
     /**
      * Returns a short description of the servlet.

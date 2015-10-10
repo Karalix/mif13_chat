@@ -51,11 +51,7 @@ public class ChatFilter implements Filter{
         {
             req.getRequestDispatcher("/Messages").forward(req, resp);
         }
-        else
-        {/*je sais pas pouquoi si je supprime ces deux lignes les erreurs apparaissent*/
-            PrintWriter out = resp.getWriter();
-            out.println("");
-        }
+        
         chain.doFilter(req , resp);
     }
 
