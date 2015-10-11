@@ -52,6 +52,14 @@ public class ChatFilter implements Filter{
             String uri = req.getRequestURI();
             String[] parts = uri.split("/");
             req.setAttribute("room", parts[3]);
+            if(parts[4].equals("MessagesAfter"))
+            {
+                req.setAttribute("after", true);
+            }
+            if(parts[5]!=null)
+            {
+                req.setAttribute("idmsg",parts[5]);
+            }
             req.getRequestDispatcher("/Messages").forward(req, resp);
         }
         

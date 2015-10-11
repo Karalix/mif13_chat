@@ -47,17 +47,39 @@ public class MessagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 throws ServletException, IOException {
            String room = (String)request.getAttribute("room");
+           String idmsg = (String)request.getAttribute("idmsg");
+           Boolean after = (Boolean)request.getAttribute("after");
            ServletContext context = request.getServletContext();
            GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
            ArrayList<Message> list = gm.getMessagesByRoom(context,room);
            PrintWriter out = response.getWriter();
-           out.println("Liste des message de la salle "+room+" : ");
-            for(int i = 0; i < list.size(); i++)
-            {
-                Message m = list.get(i);
-                out.println(m.getSender()+" : "+m.getTexte());
-            }
-     
+           if(idmsg != null && after != null)
+           {
+               out.println("Liste des message de la salle "+room+" apres id "+idmsg+" : ");
+               int entier = Integer.parseInt(idmsg);
+               for(int i = entier; i < list.size(); i++)
+                {
+                    Message m = list.get(i);
+                    out.println(m.getSender()+" : "+m.getTexte());
+                }
+           }
+           else if(idmsg != null)
+           {
+               int entier = Integer.parseInt(idmsg);
+                Message m = list.get(entier);
+               out.println("Informations sur le message id "+idmsg+" : ");
+               out.println("Sender : " +m.getSender());
+               out.println("Texte : " +m.getTexte());
+           }
+           else
+           {
+               out.println("Liste des message de la salle "+room+" : ");
+                for(int i = 0; i < list.size(); i++)
+                {
+                    Message m = list.get(i);
+                    out.println(m.getSender()+" : "+m.getTexte());
+                }
+           }
     }
 
     /**
