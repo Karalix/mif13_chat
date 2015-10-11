@@ -7,6 +7,7 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,11 +45,19 @@ public class MessagesServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       String uri = request.getRequestURI();
-        PrintWriter out = response.getWriter();
-            out.println("-------"+uri);
-            
+                throws ServletException, IOException {
+           String room = (String)request.getAttribute("room");
+           ServletContext context = request.getServletContext();
+           GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
+           ArrayList<Message> list = gm.getMessagesByRoom(context,room);
+           PrintWriter out = response.getWriter();
+           out.println("Liste des message de la salle "+room+" : ");
+            for(int i = 0; i < list.size(); i++)
+            {
+                Message m = list.get(i);
+                out.println(m.getSender()+" : "+m.getTexte());
+            }
+     
     }
 
     /**

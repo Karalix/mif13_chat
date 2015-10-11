@@ -49,6 +49,9 @@ public class ChatFilter implements Filter{
         }
         else if(Pattern.matches("/Chat/Conversations/.*/Messages.*", req.getRequestURI()) )
         {
+            String uri = req.getRequestURI();
+            String[] parts = uri.split("/");
+            req.setAttribute("room", parts[3]);
             req.getRequestDispatcher("/Messages").forward(req, resp);
         }
         
