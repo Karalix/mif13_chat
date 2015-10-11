@@ -95,6 +95,17 @@ public class MessagesServlet extends HttpServlet {
             throws ServletException, IOException {
         
     }
+    @Override/*mais comment utiliser la methode put??????????????*/
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String text = request.getParameter("texte");
+        String user = request.getParameter("login");
+        String room = request.getParameter("room");
+        Message m = new Message(user,text);
+        ServletContext context = request.getServletContext();
+        GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
+        gm.addMessageInRoom(context, room, m);
+    }
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
