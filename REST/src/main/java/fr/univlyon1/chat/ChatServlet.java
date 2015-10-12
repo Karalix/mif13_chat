@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,7 +34,6 @@ public class ChatServlet extends EnhancedHttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -51,7 +49,6 @@ public class ChatServlet extends EnhancedHttpServlet {
         String format = defineOutputFormat(request, response);
         PrintWriter out = response.getWriter();
         ServletContext context = request.getServletContext();
-        GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
         Set<String> set = gm.getAllRooms(context);
         Iterator<String> it = set.iterator();
         switch (format) {
@@ -90,7 +87,11 @@ public class ChatServlet extends EnhancedHttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        ServletContext context = this.getServletContext();
+        String uri = request.getRequestURI();
+        String[] parts = uri.split("/");
+        String targetRoom = parts[3] ;
+        gm.getMessagesByRoom(context, targetRoom);
     }
 
     @Override
@@ -98,7 +99,6 @@ public class ChatServlet extends EnhancedHttpServlet {
             throws ServletException, IOException {
         String room = request.getParameter("room");
         ServletContext context = request.getServletContext();
-        GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
         gm.getMessagesByRoom(context, room);
     }
     
@@ -110,6 +110,6 @@ public class ChatServlet extends EnhancedHttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

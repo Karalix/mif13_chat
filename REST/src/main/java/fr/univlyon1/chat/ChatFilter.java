@@ -34,20 +34,29 @@ public class ChatFilter implements Filter{
         HttpServletResponse resp = (HttpServletResponse)response ;
         
         
-        if(req.getMethod().equalsIgnoreCase("POST") && req.getParameter("but").equals("in") && req.getParameter("login") != "")
+        if(req.getMethod().equalsIgnoreCase("POST"))
         {
-             ServletContext context = request.getServletContext();  
-             String user = request.getParameter("login");
-             String room = request.getParameter("room");
-             String chemin = "/Chat/Conversations/"+room+"/interface/"+user;
-             //request.getRequestDispatcher("interface.jsp?login="+user+"&room="+room).forward(request, response);
-             resp.sendRedirect(chemin);
+            if(req.getParameter("but") != null &&
+                req.getParameter("login") != null &&
+                req.getParameter("but").equals("in") &&
+                !req.getParameter("login").equals("")
+                    ) {
+                
+                ServletContext context = request.getServletContext();  
+                String user = request.getParameter("login");
+                String room = request.getParameter("room");
+                String chemin = "/Chat/Conversations/"+room+"/interface/"+user;
+                //request.getRequestDispatcher("interface.jsp?login="+user+"&room="+room).forward(request, response);
+                resp.sendRedirect(chemin);
+            }
+            else if(req.getParameter("but") != null &&
+                    req.getParameter("but").equals("in"))
+            {
+                req.getRequestDispatcher("index.html").forward(req, resp);
+            }
+            
         }
-        else if(req.getMethod().equalsIgnoreCase("POST") && req.getParameter("but").equals("in"))
-        {
-            req.getRequestDispatcher("index.html").forward(req, resp);
-        }
-        else if(Pattern.matches("/Chat/Conversations/.*/Messages.*", req.getRequestURI()) )
+        if(Pattern.matches("/Chat/Conversations/.*/Messages.*", req.getRequestURI()) )
         {
             String uri = req.getRequestURI();
             String[] parts = uri.split("/");
@@ -62,7 +71,6 @@ public class ChatFilter implements Filter{
             }
             req.getRequestDispatcher("/Messages").forward(req, resp);
         }
-        
         chain.doFilter(req , resp);
     }
 

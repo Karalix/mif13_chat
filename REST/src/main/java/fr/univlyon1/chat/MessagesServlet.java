@@ -7,11 +7,12 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,9 +54,9 @@ public class MessagesServlet extends EnhancedHttpServlet {
            Boolean after = (Boolean)request.getAttribute("after");
            String format = defineOutputFormat(request, response);
            ServletContext context = request.getServletContext();
-           GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
            ArrayList<Message> list = gm.getMessagesByRoom(context,room);
            PrintWriter out = response.getWriter();
+           
            if(idmsg != null && after != null)
            {
                int entier = Integer.parseInt(idmsg);
@@ -125,22 +126,61 @@ public class MessagesServlet extends EnhancedHttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-    }
-    @Override/*mais comment utiliser la methode put??????????????*/
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         String text = request.getParameter("texte");
         String user = request.getParameter("login");
-        String room = request.getParameter("room");
+        String room = (String)request.getAttribute("room");
         Message m = new Message(user,text);
         ServletContext context = request.getServletContext();
-        GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
+        
+        
+        updateLastModified(context);
+        
         gm.addMessageInRoom(context, room, m);
     }
+    
+    
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String text = request.getParameter("texte");
+        String sender = request.getParameter("sender");
+        String room = (String)request.getAttribute("room");
+        String idmsg = (String)request.getAttribute("idmsg");
+        ServletContext context = request.getServletContext();
+        List<Message> list = gm.getMessagesByRoom(context, room);
+        
+        if(idmsg != null) {
+            int entier = Integer.parseInt(idmsg);
+            if(list.size() != entier+1) {
+                response.setStatus(400);
+                return ;
+            }
+            Message m = list.get(entier);
+            m.setSender(sender);
+            m.setTexte(text);
+            updateLastModified(context);
+            response.setStatus(200);
+        }
+        
+    }
+    
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            String room = (String)request.getAttribute("room");
+            String idmsg = (String)request.getAttribute("idmsg");
+            ServletContext context = request.getServletContext();
+            ArrayList<Message> list = gm.getMessagesByRoom(context,room);
+
+           if(idmsg != null)
+           {
+                int entier = Integer.parseInt(idmsg);
+                list.remove(entier);
+                response.setStatus(204);
+                
+                updateLastModified(context);
+           }
         
     }
     /**
@@ -151,6 +191,6 @@ public class MessagesServlet extends EnhancedHttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

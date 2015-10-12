@@ -23,6 +23,12 @@ public class GestionMessages {
     public GestionMessages() {
     }
     
+    /**
+     * Gets the list of messages of the room, if the rooms doesn't exist, it is then created
+     * @param context
+     * @param room
+     * @return 
+     */
     public ArrayList<Message> getMessagesByRoom(ServletContext context, String room){
         Map<String,ArrayList<Message>> map = (HashMap<String,ArrayList<Message>>)context.getAttribute("rooms");
         if(map == null)

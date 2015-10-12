@@ -7,6 +7,9 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Emilie
  */
-public class ConversationsServlet extends HttpServlet {
+public class ConversationsServlet extends EnhancedHttpServlet {
 
     private static GestionMessages gm;
 
@@ -45,6 +48,10 @@ public class ConversationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(Pattern.matches("/Chat/Conversations/.*/Messages.*", request.getRequestURI()) ) {
+            return ;
+        }
+
         response.setContentType("text/html");
         String uri = request.getRequestURI();
         String[] parts = uri.split("/");
@@ -86,20 +93,43 @@ public class ConversationsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(Pattern.matches("/Chat/Conversations/.*/Messages.*", request.getRequestURI()) ) {
+            return ;
+        }
+        ServletContext context = this.getServletContext();
+        String uri = request.getRequestURI();
+        String[] parts = uri.split("/");
+        String targetRoom = parts[3] ;
+        gm.getMessagesByRoom(context, targetRoom);
         
     }
     
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(Pattern.matches("/Chat/Conversations/.*/Messages.*", request.getRequestURI()) ) {
+            return ;
+        }
         String uri = request.getRequestURI();
         String[] parts = uri.split("/");
         String room = parts[3];
         ServletContext context = request.getServletContext();
-        GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
+        
+        updateLastModified(context);
+        
         gm.removeRoom(context, room);
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        if(Pattern.matches("/Chat/Conversations/.*/Messages.*", req.getRequestURI()) ) {
+            return ;
+        }
+    }
+
+    
+    
     /**
      * Returns a short description of the servlet.
      *

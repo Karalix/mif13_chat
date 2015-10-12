@@ -5,6 +5,9 @@
  */
 package fr.univlyon1.chat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +37,16 @@ public class EnhancedHttpServlet extends HttpServlet{
             res.setHeader("Content-Type", "application/json");
         }
         return format;
+    }
+    
+    /**
+     * Update the 'lastModified' Attribute in the context, allowing the client to know the page changed
+     * @param context 
+     */
+    public void updateLastModified(ServletContext context) {
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+        String dateString = format.format(new Date());
+        context.setAttribute("lastModified", dateString );
     }
     
 }
