@@ -56,7 +56,7 @@ public class ChatFilter implements Filter{
             {
                 req.setAttribute("after", true);
             }
-            if(parts[5]!=null)
+            if(parts.length >= 6 && parts[5]!=null)
             {
                 req.setAttribute("idmsg",parts[5]);
             }

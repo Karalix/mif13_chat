@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Emilie
  */
-public class ChatServlet extends HttpServlet {
+public class ChatServlet extends EnhancedHttpServlet {
     
     private static GestionMessages gm;
 
@@ -48,15 +48,35 @@ public class ChatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         /*ici affichage des salles à voir*/
+        String format = defineOutputFormat(request, response);
         PrintWriter out = response.getWriter();
-        out.println("Les salles : \n");
         ServletContext context = request.getServletContext();
         GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
         Set<String> set = gm.getAllRooms(context);
         Iterator<String> it = set.iterator();
-       while (it.hasNext()){
-            out.println(it.next());
+        switch (format) {
+            case "xml" :
+                out.println("<salles>");
+                while (it.hasNext()){
+                    out.println("<salle>"+it.next()+"</salle>");
+                }
+                out.println("</salles>");
+                break ;
+            default:
+                boolean firstIteration = true ;
+                out.println("{\"salles\":[");
+                while (it.hasNext()){
+                    if(!firstIteration) {
+                        out.print(",");
+                    }
+                    out.println("{ \"nom\":\""+it.next()+"\"}");
+                    if(firstIteration) {
+                        firstIteration = false ;
+                    }
+                }
+                out.println("]}");
         }
+       
     }
 
     /**

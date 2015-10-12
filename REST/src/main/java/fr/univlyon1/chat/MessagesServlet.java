@@ -8,6 +8,7 @@ package fr.univlyon1.chat;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Emilie
  */
-public class MessagesServlet extends HttpServlet {
+public class MessagesServlet extends EnhancedHttpServlet {
 
       private static GestionMessages gm;
 
@@ -34,7 +35,8 @@ public class MessagesServlet extends HttpServlet {
         }
     }
    
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -49,39 +51,69 @@ public class MessagesServlet extends HttpServlet {
            String room = (String)request.getAttribute("room");
            String idmsg = (String)request.getAttribute("idmsg");
            Boolean after = (Boolean)request.getAttribute("after");
+           String format = defineOutputFormat(request, response);
            ServletContext context = request.getServletContext();
            GestionMessages gm = (GestionMessages)context.getAttribute("gestionmessage");
            ArrayList<Message> list = gm.getMessagesByRoom(context,room);
            PrintWriter out = response.getWriter();
            if(idmsg != null && after != null)
            {
-               out.println("Liste des message de la salle "+room+" apres id "+idmsg+" : ");
                int entier = Integer.parseInt(idmsg);
-               for(int i = entier; i < list.size(); i++)
-                {
-                    Message m = list.get(i);
-                    out.println(m.getSender()+" : "+m.getTexte());
-                }
+               serveListMessages(out, format, list, entier);
            }
            else if(idmsg != null)
            {
                int entier = Integer.parseInt(idmsg);
-                Message m = list.get(entier);
-               out.println("Informations sur le message id "+idmsg+" : ");
-               out.println("Sender : " +m.getSender());
-               out.println("Texte : " +m.getTexte());
+               if(list.size()+1 >= entier ) {
+                    Message m = list.get(entier);
+                    serveSingleMessage(out, format, m);
+               }
            }
            else
            {
-               out.println("Liste des message de la salle "+room+" : ");
-                for(int i = 0; i < list.size(); i++)
-                {
-                    Message m = list.get(i);
-                    out.println(m.getSender()+" : "+m.getTexte());
-                }
+               serveListMessages(out, format, list, 0);
+
            }
     }
 
+    public void serveSingleMessage(PrintWriter out, String format, Message m) {
+        switch(format) {
+            case "xml" : out.println(m.toXml());
+                break;
+            default : out.println(m.toJson());
+        }
+    }
+    
+    public void serveListMessages(PrintWriter out, String format, List<Message> list, int beginIndex) {
+        switch(format) {
+            case "xml" :
+                out.println("<messages>");
+                for(int i = beginIndex; i < list.size(); i++)
+                {
+                    Message m = list.get(i);
+                    out.println(m.toXml());
+                }
+                out.println("</messages>");
+                break ;
+            default :
+                out.println("{\"messages\":[");
+                boolean firstIteration = true ;
+                for(int i = beginIndex; i < list.size(); i++)
+                {
+                    if(!firstIteration) {
+                        out.print(",");
+                    }
+                    Message m = list.get(i);
+                    out.println(m.toJson());
+                    if(firstIteration) {
+                        firstIteration = false ;
+                    }
+                }
+                out.println("]}");
+                break ;
+        }
+    }
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *

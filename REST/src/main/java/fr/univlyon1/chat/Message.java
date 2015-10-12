@@ -36,6 +36,32 @@ public class Message {
         this.sender = sender;
     }
     
+    public String toXml() {
+        StringBuilder sb = new StringBuilder() ;
+        sb.append("<message>");
+        sb.append("<sender>");
+        sb.append(this.sender);
+        sb.append("</sender>");
+        sb.append("<text>");
+        sb.append(this.texte);
+        sb.append("</text>");
+        sb.append("</message>");
+        
+        return sb.toString();
+    }
     
+    public String toJson() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"sender\":\"");
+        sb.append(this.sender);
+        sb.append("\",\n");
+        sb.append("\"text\":\"");
+        sb.append(this.texte);
+        sb.append("\"");
+        sb.append("}");
+        
+        return sb.toString();
+    }
     
 }
