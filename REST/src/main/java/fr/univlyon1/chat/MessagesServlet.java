@@ -176,10 +176,16 @@ public class MessagesServlet extends EnhancedHttpServlet {
            if(idmsg != null)
            {
                 int entier = Integer.parseInt(idmsg);
-                list.remove(entier);
-                response.setStatus(204);
-                
-                updateLastModified(context);
+                if(list.size()>=entier){
+                     list.remove(entier);
+                     response.setStatus(204);
+                     updateLastModified(context);
+                }
+                else
+                {
+                    response.setStatus(400);
+                }
+               
            }
         
     }

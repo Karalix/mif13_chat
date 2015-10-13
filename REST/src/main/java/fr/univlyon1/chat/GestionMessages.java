@@ -67,6 +67,7 @@ public class GestionMessages {
     
     public void removeRoom(ServletContext context, String room){
         Map map = (HashMap)context.getAttribute("rooms");
+        getMessagesByRoom(context, room);
         map.remove(room);
     }
 }
