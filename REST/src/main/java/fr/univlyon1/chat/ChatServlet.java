@@ -55,7 +55,7 @@ public class ChatServlet extends EnhancedHttpServlet {
             case "xml" :
                 out.println("<salles>");
                 while (it.hasNext()){
-                    out.println("<salle>"+it.next()+"</salle>");
+                    out.println(getSalleXml(it.next()));
                 }
                 out.println("</salles>");
                 break ;
@@ -66,7 +66,7 @@ public class ChatServlet extends EnhancedHttpServlet {
                     if(!firstIteration) {
                         out.print(",");
                     }
-                    out.println("{ \"nom\":\""+it.next()+"\"}");
+                    out.println(getSalleJson(it.next()));
                     if(firstIteration) {
                         firstIteration = false ;
                     }
@@ -74,6 +74,33 @@ public class ChatServlet extends EnhancedHttpServlet {
                 out.println("]}");
         }
        
+    }
+    
+    private String getSalleXml(String id) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("<salle>");
+        sb.append("<nom>");
+        sb.append(id);
+        sb.append("</nom>");
+        sb.append("<self href=\"/Conversations/"+id+"\" />");
+        sb.append("<messages href=\"/Conversations/"+id+"/Messages\" />");
+        sb.append("</salle>");
+        
+        return sb.toString();
+    }
+    
+    private String getSalleJson(String id) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("{ \"nom\":\""+id+"\",");
+        sb.append("\"links\" : [");
+        sb.append("{\"self\" : \"/Conversations/"+id+"\"},");
+        sb.append("{\"messages\" : \"/Conversations/"+id+"/Messages/\"}");
+        sb.append("]");
+        sb.append("}");
+        
+        return sb.toString();
     }
 
     /**
@@ -92,6 +119,7 @@ public class ChatServlet extends EnhancedHttpServlet {
         String[] parts = uri.split("/");
         String targetRoom = parts[3] ;
         gm.getMessagesByRoom(context, targetRoom);
+        response.setHeader("location", "/Conversations/"+targetRoom);
     }
 
     @Override

@@ -130,11 +130,10 @@ public class MessagesServlet extends EnhancedHttpServlet {
         String room = (String)request.getAttribute("room");
         Message m = new Message(user,text, room);
         ServletContext context = request.getServletContext();
-        
-        
         updateLastModified(context);
         
         gm.addMessageInRoom(context, room, m);
+        response.setHeader("location", "/Conversations/"+room+"/Messages/"+String.valueOf(m.getId()));
     }
     
     
