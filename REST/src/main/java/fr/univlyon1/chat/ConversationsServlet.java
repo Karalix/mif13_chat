@@ -98,6 +98,8 @@ public class ConversationsServlet extends EnhancedHttpServlet {
         String[] parts = uri.split("/");
         String targetRoom = parts[3] ;
         gm.getMessagesByRoom(context, targetRoom);
+        response.setHeader("location", "/Conversations/"+targetRoom);
+
         
     }
     
