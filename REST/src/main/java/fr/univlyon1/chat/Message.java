@@ -11,9 +11,31 @@ package fr.univlyon1.chat;
  */
 public class Message {
     
+    private static int numberOfMessages = 0 ;
+    
     private String texte ;
     
     private String sender ;
+    
+    private int id;
+    
+    private String room ;
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTexte() {
         return texte;
@@ -31,20 +53,27 @@ public class Message {
         this.sender = sender;
     }
 
-    public Message(String sender, String texte) {
+    public Message(String sender, String texte, String room) {
         this.texte = texte;
         this.sender = sender;
+        this.id = ++numberOfMessages ;
+        this.room = room ;
     }
     
     public String toXml() {
         StringBuilder sb = new StringBuilder() ;
         sb.append("<message>");
+        sb.append("<id>");
+        sb.append(String.valueOf(this.id));
+        sb.append("</id>");
         sb.append("<sender>");
         sb.append(this.sender);
         sb.append("</sender>");
         sb.append("<text>");
         sb.append(this.texte);
         sb.append("</text>");
+        //Hypermedia links
+        sb.append("<modify href=\"/Conversations/"+this.room+"/Messages/"+this.id+"\" />");
         sb.append("</message>");
         
         return sb.toString();
@@ -53,15 +82,23 @@ public class Message {
     public String toJson() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
+        sb.append("\"id\":\"");
+        sb.append(String.valueOf(this.sender));
+        sb.append("\",\n");
         sb.append("\"sender\":\"");
         sb.append(this.sender);
         sb.append("\",\n");
         sb.append("\"text\":\"");
         sb.append(this.texte);
-        sb.append("\"");
+        //Hypermedia
+        sb.append("\",\n");
+        sb.append("\"links\": [{\"modify\":\"");
+        sb.append("/Conversations/"+this.room+"/Messages/"+this.id);
+        sb.append("\"}]");
         sb.append("}");
         
         return sb.toString();
     }
+    
     
 }

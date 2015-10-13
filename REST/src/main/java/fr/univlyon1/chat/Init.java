@@ -88,7 +88,7 @@ public class Init extends HttpServlet {
             String texte = request.getParameter("texte");
             if(texte != null)
             {
-                gm.addMessageInRoom(context,room,new Message(user,texte));
+                gm.addMessageInRoom(context,room,new Message(user,texte, room));
             }
             SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
             String dateString = format.format(new Date());

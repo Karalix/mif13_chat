@@ -7,9 +7,7 @@ package fr.univlyon1.chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -65,9 +63,10 @@ public class MessagesServlet extends EnhancedHttpServlet {
            else if(idmsg != null)
            {
                int entier = Integer.parseInt(idmsg);
-               if(list.size()+1 >= entier ) {
-                    Message m = list.get(entier);
-                    serveSingleMessage(out, format, m);
+               for(Message m : list) {
+                   if(m.getId() == entier){
+                       serveSingleMessage(out, format, m);
+                   }
                }
            }
            else
@@ -129,7 +128,7 @@ public class MessagesServlet extends EnhancedHttpServlet {
         String text = request.getParameter("texte");
         String user = request.getParameter("login");
         String room = (String)request.getAttribute("room");
-        Message m = new Message(user,text);
+        Message m = new Message(user,text, room);
         ServletContext context = request.getServletContext();
         
         
@@ -152,15 +151,23 @@ public class MessagesServlet extends EnhancedHttpServlet {
         
         if(idmsg != null) {
             int entier = Integer.parseInt(idmsg);
-            if(list.size() != entier+1) {
-                response.setStatus(400);
-                return ;
+            boolean found = false ;
+            int indexOfTarget = 0 ;
+            for(Message m : list) {
+                if(m.getId() == entier) {
+                    if(indexOfTarget == list.size()+1) {
+                        m.setSender(sender);
+                        m.setTexte(text);
+                        updateLastModified(context);
+                        response.setStatus(200);
+                        found = true ;
+                    }
+                }
+                indexOfTarget ++ ;
             }
-            Message m = list.get(entier);
-            m.setSender(sender);
-            m.setTexte(text);
-            updateLastModified(context);
-            response.setStatus(200);
+            if(!found) {
+                response.setStatus(400);
+            }
         }
         
     }
@@ -176,10 +183,15 @@ public class MessagesServlet extends EnhancedHttpServlet {
            if(idmsg != null)
            {
                 int entier = Integer.parseInt(idmsg);
-                list.remove(entier);
-                response.setStatus(204);
+                for(Message m : list) {
+                    if(m.getId() == entier) {
+                        list.remove(m);
+                        response.setStatus(204);
+                        updateLastModified(context);
+                        break ;
+                    }
+                }
                 
-                updateLastModified(context);
            }
         
     }
