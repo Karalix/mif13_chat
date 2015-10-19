@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+			<script src="ajax.js"></script>
+			<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+			
+			<!-- Optional theme -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+			
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+	
+	<body>
+                <% String user = request.getParameter("login");%>
+                <% String room = "aaa"%>
+		<h1>Chat</h1>
+		<div class="panel panel-default" id="listMessages">
+			<div class="panel-heading">
+				<%= room %>
+			</div>
+		</div>
+		<button class="btn btn-default" onclick="loadMessages()">Load</button>
+			<script>
+				function loadMessages() {
+					loadXMLAsynchroneously("GET", "http://localhost:8080/Chat/Conversations/aaa/Messages", null, "listMessages");
+                }
+			</script>
+	</body>
+</html>

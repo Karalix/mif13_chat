@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <filter>
+        <filter-name>ChatFilter</filter-name>
+        <filter-class>fr.univlyon1.chat.ChatFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ChatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>Init</servlet-name>
+        <servlet-class>fr.univlyon1.chat.Init</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>fr.univlyon1.chat.ChatServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConversationsServlet</servlet-name>
+        <servlet-class>fr.univlyon1.chat.ConversationsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MessagesServlet</servlet-name>
+        <servlet-class>fr.univlyon1.chat.MessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Init</servlet-name>
+        <url-pattern>/Init</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/Chat/*</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>MessagesServlet</servlet-name>
+        <url-pattern>/Messages/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConversationsServlet</servlet-name>
+        <url-pattern>/Conversations/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+</web-app>
