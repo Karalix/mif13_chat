@@ -11,8 +11,6 @@ package fr.univlyon1.chat;
  */
 public class Message {
     
-    private static int numberOfMessages = 0 ;
-    
     private String texte ;
     
     private String sender ;
@@ -56,12 +54,13 @@ public class Message {
     public Message(String sender, String texte, String room) {
         this.texte = texte;
         this.sender = sender;
-        this.id = ++numberOfMessages ;
         this.room = room ;
+        this.id = 0 ;
     }
     
     public String toXml() {
         StringBuilder sb = new StringBuilder() ;
+        
         sb.append("<message>");
         sb.append("<id>");
         sb.append(String.valueOf(this.id));
@@ -83,7 +82,7 @@ public class Message {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"id\":\"");
-        sb.append(String.valueOf(this.sender));
+        sb.append(String.valueOf(this.id));
         sb.append("\",\n");
         sb.append("\"sender\":\"");
         sb.append(this.sender);

@@ -117,6 +117,13 @@ function getXMLTextContent(source)
 	}
 }
 
+/*
+ * Fonctions ajoutées
+ * 
+ */
+
+var lastMessagedownloaded =0 ;
+
 function traiteXML(xml, id) {
 	//document.getElementById(id).innerHTML = XMLDoc ;
         var xsl = loadXMLDoc("http://localhost:8080/Chat/messages.xsl");
@@ -155,4 +162,42 @@ function loadXMLDoc(filename)
     try {xhttp.responseType = "msxml-document";} catch(err) {} // Helping IE11
     xhttp.send("");
     return xhttp.responseXML;
+}
+
+
+function loadJsonAsynchroneously(method, request, parameters, id)
+{
+    //initialisation de l'objet XMLXhttpRequest
+    var xhr = initRequete ();
+
+    //spécification de la fonction de traitement à appeler au retour serveur (car chargement asynchrone)
+    var JsonDoc = null ;
+    xhr.onreadystatechange = function() { getJsonDocument(xhr, JsonDoc, id); };
+    
+    //envoi de la requête de chargement du fichier XML au serveur
+	//le dernier paramètre est true ; le chargement du fichier se fera en asynchrone
+    xhr.open(method, request, true);
+    xhr.setRequestHeader("Accept", "application/json");
+    //encodage des paramètres dans la requête, si la méthode est post
+	if(parameters && (method == "post" || method == "POST"))
+		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    xhr.send(parameters);
+}
+
+function getJsonDocument(xhr, JsonDoc,id) {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        var myArr = JSON.parse(xhr.responseText);
+        appendMessages(myArr, id);
+    }
+}
+
+function appendMessages(myArr, id) {
+    for (var i = 0 ; i < myArr.messages.length ; i++) {
+        var node = document.createElement("p");
+        node.innerHTML = "<strong>"+myArr.messages[i].sender+" : </strong>"+myArr.messages[i].text ;
+        document.getElementById(id).appendChild(node);
+        if(i == myArr.messages.length-1) {
+            lastMessagedownloaded = myArr.messages[i].id ;
+        }
+    }
 }

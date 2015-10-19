@@ -1,0 +1,14 @@
+#textToSend {
+    width : 100%;
+}
+
+#listMessages {
+    height: 250px;
+    overflow: auto;
+}
+
+body {
+    background-image: url("img/chat1.jpg");
+    background-repeat: no-repeat ;
+    background-position: right ;
+}

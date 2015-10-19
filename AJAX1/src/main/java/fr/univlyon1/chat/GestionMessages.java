@@ -45,6 +45,7 @@ public class GestionMessages {
         Map map = (HashMap)context.getAttribute("rooms");
         ArrayList<Message> list = getMessagesByRoom(context,room);
         list.add(msg);
+        msg.setId(list.size());
     }
     
     public int numbreMessageInARoom(ServletContext context, String room){
